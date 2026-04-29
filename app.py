@@ -2,7 +2,7 @@ import streamlit as st
 from groq import Groq
 
 st.set_page_config(
-    page_title="Qbot.ai",
+    page_title="itzQbot.ai",
     page_icon="🤖",
     layout="centered"
 )
