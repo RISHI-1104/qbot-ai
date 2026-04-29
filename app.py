@@ -1,30 +1,30 @@
 import streamlit as st
 from groq import Groq
 
-# Page config
 st.set_page_config(
     page_title="Qbot.ai",
     page_icon="🤖",
     layout="centered"
 )
 
-# Header
 st.title("🤖 Qbot.ai")
 st.caption("Your AI assistant — powered by Groq")
 
-# Groq client
-client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+api_key = st.secrets.get("GROQ_API_KEY", None)
 
-# Chat history
+if not api_key:
+    st.error("API key not found! Check your secrets.")
+    st.stop()
+
+client = Groq(api_key=api_key)
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display chat history
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# User input
 if prompt := st.chat_input("Ask Qbot.ai anything..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
