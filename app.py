@@ -2,7 +2,7 @@ import streamlit as st
 from groq import Groq
 
 st.set_page_config(
-    page_title="itzQbot.ai",
+    page_title="Qbot.ai",
     page_icon="🤖",
     layout="centered"
 )
@@ -31,11 +31,16 @@ if prompt := st.chat_input("Ask Qbot.ai anything..."):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        response = client.chat.completions.create(
-            model="llama3-8b-8192",
-            messages=st.session_state.messages
-        )
-        reply = response.choices[0].message.content
-        st.markdown(reply)
-
-    st.session_state.messages.append({"role": "assistant", "content": reply})
+        try:
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {"role": m["role"], "content": m["content"]}
+                    for m in st.session_state.messages
+                ]
+            )
+            reply = response.choices[0].message.content
+            st.markdown(reply)
+            st.session_state.messages.append({"role": "assistant", "content": reply})
+        except Exception as e:
+            st.error(f"Error: {str(e)}")
