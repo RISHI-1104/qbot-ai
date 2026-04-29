@@ -79,7 +79,7 @@ with st.sidebar:
     st.markdown("## 👤 Your Profile")
     st.markdown("---")
 
-    user_name = st.text_input("Your Name", placeholder="e.g. Rishi")
+    user_name = st.text_input("Your Name", placeholder="e.g. Riyaz")
 
     profession = st.selectbox("Your Profession", [
         "🎓 Student",
